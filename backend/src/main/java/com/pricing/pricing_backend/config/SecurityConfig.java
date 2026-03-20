@@ -20,8 +20,11 @@ public class SecurityConfig {
                         s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/health").permitAll()
+                        .requestMatchers("/api/predict").permitAll()   // ← add this
+                        .requestMatchers("/api/stats").permitAll()     // ← add this
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
+
                 );
 
         return http.build();

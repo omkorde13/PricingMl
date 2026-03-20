@@ -13,6 +13,7 @@ spring:
       hibernate:
         jdbc:
           time_zone: Asia/Kolkata
+        dialect: org.hibernate.dialect.PostgreSQLDialect   # ➕ added from updated config
 
   data:
     redis:
@@ -32,6 +33,9 @@ spring:
   security:
     filter:
       order: 10
+
+server:   # ➕ added (was missing in actual config)
+  port: 8080
 
 ml:
   service:

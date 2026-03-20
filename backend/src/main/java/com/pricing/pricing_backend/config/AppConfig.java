@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import java.time.Duration;
 
 @Configuration
@@ -36,6 +35,9 @@ public class AppConfig implements WebMvcConfigurer {
     public MLClient mlClient() {
         WebClient webClient = WebClient.builder()
                 .baseUrl(mlProps.url())
+                .codecs(c -> c.defaultCodecs().maxInMemorySize(1024 * 1024))
+                .filter((request, next) -> next.exchange(request)
+                        .timeout(Duration.ofMillis(mlProps.timeout())))
                 .build();
 
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
